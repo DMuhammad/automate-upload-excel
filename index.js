@@ -62,7 +62,9 @@ const main = async () => {
 
     log(
       "green",
-      `Found file: ${path.basename(latestCSVFile)}. Waiting for upload...`
+      `Found file: ${path.basename(
+        latestCSVFile
+      )}. Waiting for preparing form data...`
     );
 
     // Validate file size
@@ -82,18 +84,16 @@ const main = async () => {
       throw new Error(`File read error: ${err.message}`);
     });
 
+    log("green", `Wait for uploading...`);
+
     const form = new FormData();
-    form.append("file", fileStream, {
-      filename: path.basename(latestCSVFile),
-      contentType: "text/csv",
-    });
+    form.append("file", fileStream);
 
     // Upload file
     const response = await axios.post(process.env.server_url, form, {
       headers: {
         ...form.getHeaders(),
       },
-      timeout: 90000,
     });
 
     // Log success
