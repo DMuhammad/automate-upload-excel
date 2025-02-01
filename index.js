@@ -21,7 +21,7 @@ const getLatestExcelFile = (dir) => {
   try {
     return fs
       .readdirSync(dir)
-      .filter((file) => file.endsWith(".csv"))
+      .filter((file) => /\.csv$/i.test(file))
       .map((file) => ({
         path: path.join(dir, file),
         stats: fs.statSync(path.join(dir, file)),
